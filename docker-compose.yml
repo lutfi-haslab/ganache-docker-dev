@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  node:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - "8545:8545"
+    volumes:
+      - ./ganache_data:/ganache_data
+    entrypoint:
+      - node
+      - /app/ganache-core.docker.cli.js
+      - --deterministic
+      - --db=/ganache_data
+      - --mnemonic
+      - "minimum symptom minute gloom tragic situate silver mechanic salad amused elite beef"
+      - --networkId
+      - "1337"
+      - --gasPrice
+      - "0"
+      - --hostname
+      - "0.0.0.0"
+      - --hardfork
+      - "petersburg"
+      - --debug
+
+  explorer:
+    image: alethio/ethereum-lite-explorer
+    environment:
+      APP_NODE_URL: http://0.0.0.0:8545
+    ports:
+      - "8080:80"
